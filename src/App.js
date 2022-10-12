@@ -5,16 +5,12 @@ import ListBoardComponent from './component/ListBoardComponent';
 import CreateBoardComponent from './component/CreateBoardComponent';
 import Login from './component/loginComponent';
 import axios from "axios";
+import {useState} from "react";
 
-
-function test(){
-    axios.post('/api/board', {title: "test"})
-        .then(r =>
-        console.log(r));
-}
 
 
 function App() {
+
   return (
   <div>
       <Login />
