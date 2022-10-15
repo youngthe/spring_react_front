@@ -39,6 +39,26 @@ function App() {
 
     }
 
+    const register = () => {
+
+        const user = {
+            id : userID,
+            pw : Password,
+        };
+
+        axios.post('/register', user)
+            .then(function(res){
+                if(res.data.resultCode == "true"){
+                    alert("회원가입 성공");
+                }else{
+                    logout();
+                    alert("회원가입 실패");
+                }
+            }).catch(function(error){
+            console.log(error);
+        })
+    }
+
 
     const onSubmit= (event) => {
         event.preventDefault(); // submit 시 웹페이지가 리로딩 되는걸 막아줌
@@ -73,6 +93,7 @@ if(loginState == 0){
                 <input onChange={(e) => {setUserID(e.target.value)}} placeholder="userID" /><br/>
                 <input onChange={(e) => {setPassword(e.target.value)}} placeholder="password" /><br/>
                 <input type="submit" value='로그인'></input>
+                <input type="button" onClick={register} value="회원가입"></input>
                 { loginState }
             </div>
         </form>
@@ -81,11 +102,8 @@ if(loginState == 0){
     return (
         <div>
             <h1>로그인 성공</h1>
-
             <input type="button" onClick={search} value="검색"></input>
             <input type="button" onClick={logout} value="로그아웃"></input>
-
-
         </div>
     );
 }
