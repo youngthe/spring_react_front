@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import axios from "axios";
 
 function App() {
@@ -6,6 +6,11 @@ function App() {
     const [userID, setUserID] = useState('');
     const [Password, setPassword] = useState('');
     const [loginState, setloginSate] = useState(0);
+    const [shop, setShop] = useState([{
+        id : '',
+        name : '',
+        price : '',
+    }]);
     const [Data, setData] = useState({
         jwt_token: '',
         resultCode: '',
@@ -86,6 +91,41 @@ function App() {
         })
     }
 
+    const shopping = (event) => {
+        event.preventDefault(); // submit 시 웹페이지가 리로딩 되는걸 막아줌
+        axios.get('/shopping').then(function(res){
+            if(res.data.resultCode == "true"){
+                console.log(res);
+                alert("success");
+                setShop(res.data.list);
+
+            }else{
+                alert("fail");
+            }
+        })
+
+    }
+
+    const getItem = (id) => {
+        jwt_token : localStorage.getItem("jwt_token")
+
+        console.log(id);
+        axios.post('/my-shop/'+id, {
+            jwt_token : localStorage.getItem("jwt_token")
+        }).then(function(response){
+            if(response.data.resultCode == "true"){
+                console.log(response);
+                alert("success");
+            }else{
+                alert("fail");
+            }
+        })
+
+
+    }
+
+
+
 if(loginState == 0){
     return (
         <form onSubmit={onSubmit}>
@@ -103,7 +143,21 @@ if(loginState == 0){
         <div>
             <h1>로그인 성공</h1>
             <input type="button" onClick={search} value="검색"></input>
+            <input type="button" onClick={shopping} value="쇼핑"></input>
             <input type="button" onClick={logout} value="로그아웃"></input>
+
+            {
+                shop.map((shop, idx) => {
+                return (
+                    <tr key={shop.id}>
+                        <td>{shop.name}</td>
+                        <td>{shop.price}</td>
+                        <input type="button" onClick={() => getItem(shop.id) } value="장바구니 담기"></input>
+                    </tr>
+                )
+            })
+            }
+
         </div>
     );
 }
