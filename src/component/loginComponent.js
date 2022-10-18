@@ -14,6 +14,7 @@ function App() {
     const [Data, setData] = useState({
         jwt_token: '',
         resultCode: '',
+        message: '',
     });
     const login = () =>{
         if(loginState == 0){
@@ -115,7 +116,12 @@ function App() {
         }).then(function(response){
             if(response.data.resultCode == "true"){
                 console.log(response);
-                alert("success");
+
+                if(response.data.message == "exist"){
+                    alert("이미 장바구니에 담긴 상품입니다.");
+                }else{
+                    alert("해당 상품이 장바구니에 등록되었습니다.");
+                }
             }else{
                 alert("fail");
             }
