@@ -11,6 +11,12 @@ function App() {
         name : '',
         price : '',
     }]);
+    const [myshop, setMyShop] = useState([{
+        name : '',
+        price : ''
+    }]);
+
+
     const [Data, setData] = useState({
         jwt_token: '',
         resultCode: '',
@@ -130,6 +136,24 @@ function App() {
 
     }
 
+    const getShoppingBag = () => {
+
+        jwt_token : localStorage.getItem("jwt_token")
+
+
+        axios.post('/show-my-shopping', {
+            jwt_token : localStorage.getItem("jwt_token")
+        }).then(function(response){
+            if(response.data.resultCode == "true"){
+                console.log(response);
+                setMyShop(response.data.list);
+                alert("성공");
+            }else{
+                alert("fail");
+            }
+        })
+    }
+
 
 
 if(loginState == 0){
@@ -151,6 +175,7 @@ if(loginState == 0){
             <input type="button" onClick={search} value="검색"></input>
             <input type="button" onClick={shopping} value="쇼핑"></input>
             <input type="button" onClick={logout} value="로그아웃"></input>
+            <input type="button" onClick={getShoppingBag} value="장바구니 확인"></input>
 
             {
                 shop.map((shop, idx) => {
@@ -163,7 +188,23 @@ if(loginState == 0){
                 )
             })
             }
+            {
+                myshop.map((myshop,idx) => {
+                    return (
+                        <div>
 
+                            <table border="1">
+                                <th colSpan='2'>장바구니 항목</th>
+                                <tr key={myshop.name}>
+                                    <td>{myshop.name}</td>
+                                    <td>{myshop.price}</td>
+                                </tr>
+                            </table>
+
+                        </div>
+                    )
+                })
+            }
         </div>
     );
 }
