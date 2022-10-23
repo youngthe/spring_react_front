@@ -12,6 +12,7 @@ function App() {
         price : '',
     }]);
     const [myshop, setMyShop] = useState([{
+        id : '',
         name : '',
         price : ''
     }]);
@@ -154,6 +155,22 @@ function App() {
         })
     }
 
+    const deleteShoppingBag = (id) => {
+        console.log(id);
+        jwt_token : localStorage.getItem("jwt_token")
+
+        axios.post('/delete-my-shopping/'+id, {
+            jwt_token : localStorage.getItem("jwt_token")
+        }).then(function(response){
+            if(response.data.resultCode == "true"){
+                console.log(response);
+                alert("장바구니 삭제 성공");
+            }else{
+                alert("fail");
+            }
+        })
+    }
+
 
 
 if(loginState == 0){
@@ -195,12 +212,13 @@ if(loginState == 0){
 
                             <table border="1">
                                 <th colSpan='2'>장바구니 항목</th>
-                                <tr key={myshop.name}>
+                                <tr key={myshop.id}>
+                                    <td>{myshop.id}</td>
                                     <td>{myshop.name}</td>
                                     <td>{myshop.price}</td>
+                                    <td> <input type="button" onClick={() => deleteShoppingBag(myshop.id)} value="x"></input></td>
                                 </tr>
                             </table>
-
                         </div>
                     )
                 })
