@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
+import ListBoardComponent from "./ListBoardComponent";
 
 function App() {
 
@@ -11,6 +12,7 @@ function App() {
         name : '',
         price : '',
     }]);
+    const [myshopSwitch,setMyshopSwitch] = useState(0);
     const [myshop, setMyShop] = useState([{
         id : '',
         name : '',
@@ -34,24 +36,6 @@ function App() {
         }
     }
 
-    const search = () => {
-        console.log(localStorage.getItem("jwt_token"))
-        axios.post('/search', {
-            jwt_token : localStorage.getItem("jwt_token")
-        })
-            .then(function(res){
-                if(res.data.resultCode == "jwt-error"){
-                    alert("토큰이 만료되었습니다.");
-                    logout();
-                }else{
-                    alert("success search");
-                }
-            }).catch(function(error){
-            console.log(error);
-        })
-
-    }
-
     const register = () => {
 
         const user = {
@@ -64,8 +48,11 @@ function App() {
                 if(res.data.resultCode == "true"){
                     alert("회원가입 성공");
                 }else{
-                    logout();
-                    alert("회원가입 실패");
+                    if(res.data.message == "exist"){
+                        alert("아이디가 이미 존재합니다.");
+                    }else{
+                        alert("회원가입 에러");
+                    }
                 }
             }).catch(function(error){
             console.log(error);
@@ -123,10 +110,10 @@ function App() {
         }).then(function(response){
             if(response.data.resultCode == "true"){
                 console.log(response);
-
                 if(response.data.message == "exist"){
                     alert("이미 장바구니에 담긴 상품입니다.");
                 }else{
+                    getShoppingBag();
                     alert("해당 상품이 장바구니에 등록되었습니다.");
                 }
             }else{
@@ -141,14 +128,16 @@ function App() {
 
         jwt_token : localStorage.getItem("jwt_token")
 
-
         axios.post('/show-my-shopping', {
             jwt_token : localStorage.getItem("jwt_token")
         }).then(function(response){
             if(response.data.resultCode == "true"){
                 console.log(response);
                 setMyShop(response.data.list);
-                alert("성공");
+                if(response.data.list.length == 0){
+                    alert("장바구니가 비어있습니다.");
+                }
+                setMyshopSwitch(1);
             }else{
                 alert("fail");
             }
@@ -164,6 +153,7 @@ function App() {
         }).then(function(response){
             if(response.data.resultCode == "true"){
                 console.log(response);
+                getShoppingBag();
                 alert("장바구니 삭제 성공");
             }else{
                 alert("fail");
@@ -178,7 +168,7 @@ if(loginState == 0){
         <form onSubmit={onSubmit}>
             <div>
                 <input onChange={(e) => {setUserID(e.target.value)}} placeholder="userID" /><br/>
-                <input onChange={(e) => {setPassword(e.target.value)}} placeholder="password" /><br/>
+                <input onChange={(e) => {setPassword(e.target.value)}} placeholder="password" type={"password"}/><br/>
                 <input type="submit" value='로그인'></input>
                 <input type="button" onClick={register} value="회원가입"></input>
                 { loginState }
@@ -189,7 +179,6 @@ if(loginState == 0){
     return (
         <div>
             <h1>로그인 성공</h1>
-            <input type="button" onClick={search} value="검색"></input>
             <input type="button" onClick={shopping} value="쇼핑"></input>
             <input type="button" onClick={logout} value="로그아웃"></input>
             <input type="button" onClick={getShoppingBag} value="장바구니 확인"></input>
@@ -205,24 +194,31 @@ if(loginState == 0){
                 )
             })
             }
+
+
             {
                 myshop.map((myshop,idx) => {
-                    return (
-                        <div>
+                    if(myshopSwitch == 1){
+                        return (
+                            <div>
 
-                            <table border="1">
-                                <th colSpan='2'>장바구니 항목</th>
-                                <tr key={myshop.id}>
-                                    <td>{myshop.id}</td>
-                                    <td>{myshop.name}</td>
-                                    <td>{myshop.price}</td>
-                                    <td> <input type="button" onClick={() => deleteShoppingBag(myshop.id)} value="x"></input></td>
-                                </tr>
-                            </table>
-                        </div>
-                    )
+                                <table border="1">
+                                    <th colSpan='2'>장바구니 항목</th>
+                                    <tr key={myshop.id}>
+                                        <td>{myshop.id}</td>
+                                        <td>{myshop.name}</td>
+                                        <td>{myshop.price}</td>
+                                        <td> <input type="button" onClick={() => deleteShoppingBag(myshop.id)} value="x"></input></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        )
+                    }
+
                 })
+
             }
+
         </div>
     );
 }
