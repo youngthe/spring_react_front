@@ -12,6 +12,9 @@ function App() {
         name : '',
         price : '',
     }]);
+
+    const [addShopName, setAddShopName] = useState('');
+    const [addShopPrice, setAddShopPrice] = useState('');
     const [myshopSwitch,setMyshopSwitch] = useState(0);
     const [myshop, setMyShop] = useState([{
         id : '',
@@ -98,7 +101,6 @@ function App() {
                 alert("fail");
             }
         })
-
     }
 
     const getItem = (id) => {
@@ -120,8 +122,6 @@ function App() {
                 alert("fail");
             }
         })
-
-
     }
 
     const getShoppingBag = () => {
@@ -138,6 +138,9 @@ function App() {
                     alert("장바구니가 비어있습니다.");
                 }
                 setMyshopSwitch(1);
+            }else if(response.data.resultCode == "jwt-expired"){
+                setloginSate(0);
+                alert("로그인이 만료되었습니다.");
             }else{
                 alert("fail");
             }
@@ -161,6 +164,19 @@ function App() {
         })
     }
 
+    const putAddShop = () => {
+
+        axios.post('/addShop/', {
+            jwt_token : localStorage.getItem("jwt_token"),
+            name : addShopName,
+            price : addShopPrice,
+        }).then(function(response){
+            console.log(response);
+        })
+
+
+    }
+
 
 
 if(loginState == 0){
@@ -180,6 +196,7 @@ if(loginState == 0){
         <div>
             <h1>로그인 성공</h1>
             <input type="button" onClick={shopping} value="쇼핑"></input>
+
             <input type="button" onClick={logout} value="로그아웃"></input>
             <input type="button" onClick={getShoppingBag} value="장바구니 확인"></input>
 
@@ -194,7 +211,6 @@ if(loginState == 0){
                 )
             })
             }
-
 
             {
                 myshop.map((myshop,idx) => {
@@ -214,11 +230,13 @@ if(loginState == 0){
                             </div>
                         )
                     }
-
                 })
-
             }
-
+            <div>
+                    상품 이름 :   <input onChange={(e) => {setAddShopName(e.target.value)}} placeholder="이름" /><br/>
+                    상품 가격 :   <input onChange={(e) => {setAddShopPrice(e.target.value)}} placeholder="가격" /><br/>
+                    <input type="button" onClick={putAddShop} value="상품 추가"></input>
+            </div>
         </div>
     );
 }
