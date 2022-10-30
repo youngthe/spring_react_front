@@ -13,13 +13,15 @@ function App() {
         price : '',
     }]);
 
+    const [TotalPrice, setTotalPrice] = useState(0);
+
     const [addShopName, setAddShopName] = useState('');
     const [addShopPrice, setAddShopPrice] = useState('');
     const [myshopSwitch,setMyshopSwitch] = useState(0);
     const [myshop, setMyShop] = useState([{
         id : '',
         name : '',
-        price : ''
+        price : 0
     }]);
 
 
@@ -27,6 +29,7 @@ function App() {
         jwt_token: '',
         resultCode: '',
         message: '',
+        TotalPrice: 0,
     });
     const login = () =>{
         if(loginState == 0){
@@ -96,6 +99,7 @@ function App() {
                 console.log(res);
                 alert("success");
                 setShop(res.data.list);
+                // setTotalPrice(res.data.totalPrice);
 
             }else{
                 alert("fail");
@@ -134,6 +138,7 @@ function App() {
             if(response.data.resultCode == "true"){
                 console.log(response);
                 setMyShop(response.data.list);
+                setTotalPrice(response.data.TotalPrice);
                 if(response.data.list.length == 0){
                     alert("장바구니가 비어있습니다.");
                 }
@@ -159,7 +164,7 @@ function App() {
                 getShoppingBag();
                 alert("장바구니 삭제 성공");
             }else{
-                alert("fail");
+                alert("장바구니 삭제 실패");
             }
         })
     }
@@ -172,11 +177,21 @@ function App() {
             price : addShopPrice,
         }).then(function(response){
             console.log(response);
+            if(response.data.resultCode == "true"){
+                alert("상품 추가 성공");
+            }else{
+                alert("상품 추가 실패");
+            }
         })
 
 
     }
 
+    // const getTotalPrice = () => {
+    //     myshop.map(myshop, idx) => {
+    //
+    //     }
+    // }
 
 
 if(loginState == 0){
@@ -199,7 +214,7 @@ if(loginState == 0){
 
             <input type="button" onClick={logout} value="로그아웃"></input>
             <input type="button" onClick={getShoppingBag} value="장바구니 확인"></input>
-
+            <p>
             {
                 shop.map((shop, idx) => {
                 return (
@@ -211,13 +226,13 @@ if(loginState == 0){
                 )
             })
             }
-
+            </p>
+            <p>
             {
                 myshop.map((myshop,idx) => {
                     if(myshopSwitch == 1){
                         return (
                             <div>
-
                                 <table border="1">
                                     <th colSpan='2'>장바구니 항목</th>
                                     <tr key={myshop.id}>
@@ -232,6 +247,12 @@ if(loginState == 0){
                     }
                 })
             }
+
+            </p>
+            <p>
+                장바구니 총 가격 : {TotalPrice}
+            </p>
+            {/*{getTotalPrice}*/}
             <div>
                     상품 이름 :   <input onChange={(e) => {setAddShopName(e.target.value)}} placeholder="이름" /><br/>
                     상품 가격 :   <input onChange={(e) => {setAddShopPrice(e.target.value)}} placeholder="가격" /><br/>
