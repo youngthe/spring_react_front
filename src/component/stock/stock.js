@@ -8,16 +8,15 @@ class Stock extends Component{
         super(props);
 
         this.state = {
-            data: []
+            stocks: []
         }
 
-        // this.createBoard = this.createBoard.bind(this);
     }
 
     componentDidMount() {
-        StockService.getBoards().then((res) => {
+        StockService.getStocks().then((res) => {
             console.log(res.data.data.content);
-            this.setState({data: res.data.data.content});
+            this.setState({stocks: res.data.data.content});
         });
     }
 
@@ -49,6 +48,7 @@ class Stock extends Component{
                         <table className="board-table" border={1}>
                             <thead>
                             <tr>
+                                <th scope="col" className="th-num">종목 번호</th>
                                 <th scope="col" className="th-date">종목</th>
                                 <th scope="col" className="th-date">목표가</th>
                                 <th scope="col" className="th-date">현재가</th>
@@ -58,9 +58,10 @@ class Stock extends Component{
                             <tbody>
 
                             {
-                                this.state.data.map(
+                                this.state.stocks.map(
                                     data =>
                                         <tr key = {data.pk}>
+                                            <td> {data.pk} </td>
                                             <td> {data.stockName} </td>
                                             <td> {data.goalPrice} </td>
                                             <td> {data.currentPrice} </td>

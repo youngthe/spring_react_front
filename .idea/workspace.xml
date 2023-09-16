@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e54b9d41-f7ad-4467-a6b7-164f820257ea" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/jpa-buddy.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/spring_react_front.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/component/stock/stock.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/component/stock/stock.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/StockService.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+    <list default="true" id="e54b9d41-f7ad-4467-a6b7-164f820257ea" name="Changes" comment="add : stock view page">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/component/stock/stock.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/stock/stock.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/StockService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/StockService.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,8 +60,16 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1694869013367</updated>
-      <workItem from="1694869014726" duration="3509000" />
+      <workItem from="1694869014726" duration="4692000" />
     </task>
+    <task id="LOCAL-00001" summary="add : stock view page">
+      <created>1694875795188</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1694875795188</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -83,5 +85,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="add : stock view page" />
+    <option name="LAST_COMMIT_MESSAGE" value="add : stock view page" />
   </component>
 </project>

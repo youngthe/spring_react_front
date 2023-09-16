@@ -3,9 +3,8 @@ import axios from 'axios';
 const STOCK_API_BASE_URL = "http://localhost:8080/stock";
 
 class StockService {
-    getBoards() {
+    getStocks() {
         return axios.get(STOCK_API_BASE_URL);
-
     }
 
 }
