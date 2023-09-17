@@ -52,7 +52,8 @@ class Stock extends Component{
                                 <th scope="col" className="th-date">종목</th>
                                 <th scope="col" className="th-date">목표가</th>
                                 <th scope="col" className="th-date">현재가</th>
-                                <th scope="col" className="th-date">목표가까지 남은 금액</th>
+                                <th scope="col" className="th-date">퍼센트</th>
+                                <th scope="col" className="th-date">날짜</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -61,11 +62,12 @@ class Stock extends Component{
                                 this.state.stocks.map(
                                     data =>
                                         <tr key = {data.pk}>
-                                            <td> {data.pk} </td>
+                                            <td> {num++} </td>
                                             <td> {data.stockName} </td>
                                             <td> {data.goalPrice} </td>
                                             <td> {data.currentPrice} </td>
-                                            <td> 0 </td>
+                                            <td> {data.percent}</td>
+                                            <td>{Unix_timestamp(data.timestamp)}</td>
                                         </tr>
                                 )
                             }
@@ -76,6 +78,19 @@ class Stock extends Component{
             </section>
         );
     }
+}
+
+let num = 1;
+function Unix_timestamp(t){
+    const date = new Date(t); //date객체는 UTC로부터 지난시간을 밀리초로 나타내는 UNIX 타임스탬프를 담는다.(밀리초를 초로 변환하려면 *1000)
+    console.log(date) //2023-02-28T05:36:35.000Z 출력됨
+    const year = date.getFullYear(); //년도 구하기
+    const month = "0" + (date.getMonth()+1);
+    const day = "0" + date.getDate();
+    const hour = "0" + date.getHours();
+    const minute = "0" + date.getMinutes();
+    const second = "0" + date.getSeconds();
+    return year + "-" + month.substr(-2) + "-" + day.substr(-2) + " " + hour.substr(-2) + ":" + minute.substr(-2) + ":" + second.substr(-2);
 }
 
 export default Stock;
