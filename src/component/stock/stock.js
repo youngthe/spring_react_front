@@ -74,6 +74,7 @@ class Stock extends Component{
                             </tbody>
                         </table>
                     </div>
+                <input type="button" value={"get data"} onClick={refresh}></input>
                 </div>
             </section>
         );
@@ -91,6 +92,12 @@ function Unix_timestamp(t){
     const minute = "0" + date.getMinutes();
     const second = "0" + date.getSeconds();
     return year + "-" + month.substr(-2) + "-" + day.substr(-2) + " " + hour.substr(-2) + ":" + minute.substr(-2) + ":" + second.substr(-2);
+}
+function refresh(){
+    StockService.getDataRefresh("1").then(res =>{
+        window.location.reload()
+    });
+
 }
 
 export default Stock;
